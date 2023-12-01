@@ -1,0 +1,37 @@
+Using Google Cloud to install WordPress on Rocky Linux 8.
+UK Course: ICT 418: Linux Systems Administration
+Professor: Dr. Searn Burns
+
+* It is assumed that users already have Google Cloud Console account created. If not, one can create a limited time free trial account by going to https://cloud.google.com/
+
+# Setting up a Rocky Linux 8 VM in Google Cloud Platform (GCP)
+- Login to GCP with Google Account. 
+- Create a New project if you haven't created one already. 
+- Select a Project and click Continue
+- Click on Compute Engine > VM instances
+- Click on Create Instance 
+- Give the VM instance a meaninful name. (first character must be a lowercase letter, no spaces, and all the following characters must be hyphens, 
+lowercase letters, or digits, except the last character, which cannot be a hyphen.)
+:My choice of name was rocky-2023
+- Choose the Region and Zone
+- Select Machine Type. We will select e2-medium (2 vCPU,, 1 core, 4 GB memory). If we select lower than 4 GB, our terminal commands will keep getting KILLED. 
+- Click on Change under Boot disk and select "Rocky Linux" version "Rocky Linux 8 optimized for GCP". Click on Select with other. Minimum size is 20 GB.
+- Under Firewall > Check "Allow HTTP traffic"
+- Click on Create to create the VM- Rocky Linux 8 in GCP
+
+# Connecting to Rocky Linux (am on MacOS)
+- We can connect to the VM via command line on Terminal (macOS) or Command Prompt (Windows)
+- Copy the ssh gcloud command from GCP or type in the syntax in the terminal. 
+syntax looks something like this : 
+	gcloud compute ssh --zone "zone-info" "name-info" --project "project-id"
+ 
+- Once we are connected, first thing we would do is to update the machines
+
+[bimalanemkul@rocky-2023 ~]$ sudo dnf -y update
+[bimalanemkul@rocky-2023 ~]$ sudo dnf -y upgrade
+#(dnf is a package manager used in Red Hat-based Linux distributions, particularly in Fedora, CentOS, RHEL (Red Hat Enterprise Linux), and related distributions.
+#The name "dnf" stands for "Dandified Yum," indicating its connection to the older package manager "Yum.")
+
+
+
+
