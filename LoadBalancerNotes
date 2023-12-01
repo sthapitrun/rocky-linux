@@ -1,4 +1,7 @@
 Basic #LoadBalancer understanding:
+Dr. Burns - "A load balancer is a useful way to distribute traffic to multiple servers in order to reduce the workload on any one 
+specific server. Load balancers can be used in all sorts of situations, such as managing email, web, or other internet traffic."
+
 A load balancer acts as the “traffic cop” sitting in front of your servers and routing client requests across all 
 servers capable of fulfilling those requests in a manner that maximizes speed and capacity utilization and ensures
 that no one server is overworked, which could degrade performance. If a single server goes down, the load balancer
@@ -66,7 +69,14 @@ and implementing load balancing to distribute traffic evenly.
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
 reduce overwhelming traffic to one server causing slowness or failure. (traffic cop)
 
+Project 3: Creating a Load Balancer
+Purpose:
+- Use the gcloud command line to create a load balancer that distributes web (HTTP) traffic to three separate servers.
+- Create three servers that would contain the exact same content: our wordpress website created in Rocky Linux 8.
+- Any requests to the website would be proxied through the load balancer, which would then, like a traffic cop, 
+direct HTTP traffic to the servers, as needed.
 
+# Steps (I took.)
 
 
 
