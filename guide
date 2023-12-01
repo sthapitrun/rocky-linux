@@ -26,12 +26,302 @@ syntax looks something like this :
 	gcloud compute ssh --zone "zone-info" "name-info" --project "project-id"
  
 - Once we are connected, first thing we would do is to update the machines
-
 [bimalanemkul@rocky-2023 ~]$ sudo dnf -y update
 [bimalanemkul@rocky-2023 ~]$ sudo dnf -y upgrade
 #(dnf is a package manager used in Red Hat-based Linux distributions, particularly in Fedora, CentOS, RHEL (Red Hat Enterprise Linux), and related distributions.
 #The name "dnf" stands for "Dandified Yum," indicating its connection to the older package manager "Yum.")
 
+[bimalanemkul@rocky-2023 ~]$ sudo dnf -y update
+[bimalanemkul@rocky-2023 ~]$ sudo dnf -y upgrade
+[bimalanemkul@rocky-2023 yum.repos.d]$ sudo dnf check-update
+[bimalanemkul@rocky-2023 /]$ gcloud components update
+[bimalanemkul@rocky-2023 /]$ sudo dnf install dnf
+[bimalanemkul@rocky-2023 /]$ cd /etc/yum.repos.d/
+[bimalanemkul@rocky-2023 /]$ sudo dnf install tree
+
+Install apache HTTP server on Rocky Linux 8
+[bimalanemkul@rocky-2023 ~]$ sudo dnf install httpd
+[bimalanemkul@rocky-2023 ~]$ sudo systemctl start httpd
+[bimalanemkul@rocky-2023 ~]$ sudo systemctl enable httpd
+[bimalanemkul@rocky-2023 ~]$ sudo systemctl status httpd
+
+creating a web page
+[bimalanemkul@rocky-2023 ~]$ sudo dnf install w3m
+couldn't find w3m in the repolist so enabling the EPEL repos
+[bimalanemkul@rocky-2023 ~]$ sudo dnf install epel-release
+[bimalanemkul@rocky-2023 ~]$ sudo dnf update
+
+# sudo dnf install w3m unsuccessful
+
+[bimalanemkul@rocky-2023 ~]$ cd /var/www/html
+[bimalanemkul@rocky-2023 html]$ sudo nano index.html
+
+#Installing and Configuring PHP
+[bimalanemkul@rocky-2023 html]$ sudo dnf install php
+[bimalanemkul@rocky-2023 html]$ php -v
+PHP 7.2.24 (cli) (built: Oct 22 2019 08:28:36) ( NTS )
+
+[bimalanemkul@rocky-2023 html]$ sudo systemctl restart httpd
+
+Change basic configurations
+[bimalanemkul@rocky-2023 html]$ cd /etc/httpd
+[bimalanemkul@rocky-2023 httpd]$ ls
+conf  conf.d  conf.modules.d  logs  modules  run  state
+directory configuration (httpd.conf) is located in the following folder for Rocky Linux 8
+[bimalanemkul@rocky-2023 conf]$ cd /etc/httpd/conf
+
+DirectoryIndex index.php index.html
+[bimalanemkul@rocky-2023 /]$ apachectl configtest
+Syntax OK
+
+[bimalanemkul@rocky-2023 /]$ sudo systemctl reload httpd
+[bimalanemkul@rocky-2023 /]$ sudo systemctl restart httpd
+[bimalanemkul@rocky-2023 /]$ systemctl status httpd
+
+we need to create index.php now
+[bimalanemkul@rocky-2023 /]$ cd /var/www/html
+[bimalanemkul@rocky-2023 /]$ sudo nano index.php
+
+check the website 
+http://34.134.129.185/index.php
+
+# Installing and configuring MariaDB
+[bimalanemkul@rocky-2023 html]$ sudo dnf update
+	install mariadb server and client
+[bimalanemkul@rocky-2023 html]$ sudo dnf install mariadb-server mariadb
+
+[bimalanemkul@rocky-2023 html]$ sudo systemctl restart mariadb
+[bimalanemkul@rocky-2023 html]$ sudo systemctl enable mariadb
+[bimalanemkul@rocky-2023 html]$ systemctl status mariadb
+ mariadb.service - MariaDB 10.3 database server
+   Loaded: loaded (/usr/lib/systemd/system/mariadb.service; enabled; vendor preset: disabled)
+   Active: active (running) since Thu 2023-11-30 14:25:20 UTC; 14s ago
+
+Run a post installation script to setup password for MariaDB and perform security checks
+Crucial step
+[bimalanemkul@rocky-2023 html]$ sudo mysql_secure_installation
+
+Login to mariadb to test
+login with root linux user
+[bimalanemkul@rocky-2023 html]$ sudo su
+
+[root@rocky-2023 html]# sudo mysql -u root -p
+passsword : 9110
+Logged in to MariaDB
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+
+Create and setup a regular user account still logged in as root user
+MariaDB [(none)]> create user 'webapp'@'localhost' identified by 'XXXXXXXX';
+
+
+Create a database
+MariaDB [(none)]> create database linuxdb;
+MariaDB [(none)]> grant all privileges on linuxdb.* to 'webapp'@'localhost';
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| linuxdb            |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [(none)]> \q
+Bye
+[root@rocky-2023 html]# exit
+exit
+
+Login with the new user webapp created earlier
+[bimalanemkul@rocky-2023 /]$ mysql -u webapp -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| linuxdb            |
++--------------------+
+2 rows in set (0.000 sec)
+
+MariaDB [(none)]> use linuxdb;
+Database changed
+
+Create a table for linuxdb
+
+MariaDB [(linuxdb)]> create table distributions
+(
+id int unsigned not null auto_increment,
+name varchar(150) not null,
+developer varchar(150) not null,
+founded date not null,
+primary key (id)
+);
+Query OK, 0 rows affected (0.07 sec)
+
+MariaDB [(linuxdb)]> show tables;
+MariaDB [(linuxdb)]> describe distributions;
+
+Add records to the table
+MariaDB [linuxdb]> insert into distributions (name, developer, founded) values
+    -> ('Debian', 'The Debian Project', '1993-09-15'),
+    -> ('Ubuntu', 'Canonical Ltd.', '2004-10-20'),
+    -> ('Fedora', 'Fedora Project', '2003-11-06');
+Query OK, 3 rows affected (0.003 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [(linuxdb)]> select * from distributions;
++----+--------+--------------------+------------+
+| id | name   | developer          | founded    |
++----+--------+--------------------+------------+
+|  1 | Debian | The Debian Project | 1993-09-15 |
+|  2 | Ubuntu | Canonical Ltd.     | 2004-10-20 |
+|  3 | Fedora | Fedora Project     | 2003-11-06 |
++----+--------+--------------------+------------+
+3 rows in set (0.000 sec)
+
+MariaDB [linuxdb]> \q
+Bye
+
+# Install php and mysql support
+[bimalanemkul@rocky-2023 /]$ sudo dnf search php
+[bimalanemkul@rocky-2023 /]$ sudo dnf install php-mysqlnd
+
+[bimalanemkul@rocky-2023 /]$ sudo systemctl restart httpd
+[bimalanemkul@rocky-2023 /]$ sudo systemctl restart mysql
+
+Create PHP script - create a login.php with user and password information
+[bimalanemkul@rocky-2023 html]$ sudo touch login.php
+
+check the ownership
+[bimalanemkul@rocky-2023 html]$ ls -la login.php
+-rw-r--r--. 1 root root 0 Nov 30 14:54 login.php
+
+[bimalanemkul@rocky-2023 html]$ sudo nano login.php
+
+Modify the read write permissions
+[bimalanemkul@rocky-2023 html]$ sudo chmod 640 login.php
+[bimalanemkul@rocky-2023 html]$ ls -la login.php
+-rw-r-----. 1 root root 131 Nov 30 14:56 login.php
+
+Change the ownership of login.php
+[bimalanemkul@rocky-2023 html]$ sudo chown :apache login.php
+[bimalanemkul@rocky-2023 html]$ ls -la login.php
+-rw-r-----. 1 root apache 131 Nov 30 14:56 login.php
+
+
+Create a file titled distros.php.
+[bimalanemkul@rocky-2023 html]$ sudo nano distros.php
+
+Test Syntax
+[bimalanemkul@rocky-2023 html]$ sudo php -f login.php
+[bimalanemkul@rocky-2023 html]$ sudo php -f distros.php
+
+
+installing Wordpress
+[bimalanemkul@rocky-2023 ~]$ sudo dnf update
+first check the php version and mysql version
+[bimalanemkul@rocky-2023 ~]$ php -v
+PHP 7.2.24 (cli) (built: Oct 22 2019 08:28:36) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+
+[bimalanemkul@rocky-2023 ~]$ mysql --version
+mysql  Ver 15.1 Distrib 10.3.39-MariaDB, for Linux (x86_64) using readline 5.1
+$ sudo dnf install install php-gd php-soap php-intl php-mysqlnd php-pdo php-pecl-zip php-fpm php-opcache php-curl php-zip php-xmlrpc wget
+[bimalanemkul@rocky-2023 ~]$ sudo dnf install php-curl php-xml php-mbstring php-zip php-intl
+[bimalanemkul@rocky-2023 ~]$ sudo dnf install php-gd
+
+[bimalanemkul@rocky-2023 ~]$ sudo systemctl restart httpd
+[bimalanemkul@rocky-2023 ~]$ sudo systemctl restart mysql
+
+
+Download And Extract Wordpress
+[bimalanemkul@rocky-2023 ~]$ cd /var/www/html/
+
+[bimalanemkul@rocky-2023 html]$ sudo wget https://wordpress.org/latest.tar.gz
+[bimalanemkul@rocky-2023 html]$ sudo tar -xzvf latest.tar.gz
+
+[bimalanemkul@rocky-2023 html]$ cd /var/www/html/wordpress
+
+Create a Database and a User
+ we are going to create the WordPress database and a database user using the same process we used to create a database and user for our login.php and distros.php pages.
+
+switch to root Linux user
+Login as MariaDB root user
+[bimalanemkul@rocky-2023 wordpress]$ sudo su
+[root@rocky-2023 wordpress]# 
+
+[root@rocky-2023 wordpress]# sudo mysql -u root -p
+Enter password:  9110
+
+1. create user wordpress pass Moonman@99 in MariDB
+MariaDB [(none)]> create user 'wordpress'@'localhost' identified by 'Moonman@99';
+Query OK, 0 rows affected (0.001 sec)
+
+2. Create a new database for Wordpress
+MariaDB [(none)]> create database wordpress;
+Query OK, 1 row affected (0.001 sec)
+
+3. Grant all priviliges to the new user for new database wordpress
+MariaDB [(none)]> grant all privileges on wordpress.* to 'wordpress'@'localhost';
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| linuxdb            |
+| mysql              |
+| performance_schema |
+| wordpress          |
++--------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [(none)]> \q
+Bye
+
+Step 4: Set up wp-config.php
+When we created a file called login.php file that contained the name of the database (e.g. linuxdb), 
+the name of the database user (e.g., webapp), and the user's password. we followed the same general process that WordPress follows. 
+However, instead of login.php, WordPress uses a file called wp-config.php that we will have to edit.
+Change to the wordpress directory, if you haven't already.
+Copy and rename the wp-config-sample.php file to wp-config.php.
+[bimalanemkul@int-gs ~]$ cd /var/www/html/wordpress/
+[bimalanemkul@rocky-2023 wordpress]$ sudo cp wp-config-sample.php wp-config.php
+[bimalanemkul@rocky-2023 wordpress]$ ls
+index.php        wp-admin              wp-config-sample.php  wp-links-opml.php  wp-settings.php
+license.txt      wp-blog-header.php    wp-content            wp-load.php        wp-signup.php
+readme.html      wp-comments-post.php  wp-cron.php           wp-login.php       wp-trackback.php
+wp-activate.php  wp-config.php         wp-includes           wp-mail.php        xmlrpc.php
+
+Edit the file and add your WordPress database name, user name, and password in the fields for DB_NAME, DB_USER, and DB_PASSWORD.
+
+We need to disable FTP uploads to the site. To do that, navigate to the end of the file and add the following line: 
+define('FS_METHOD','direct');
+
+[bimalanemkul@rocky-2023 wordpress]$ apachectl configtest
+Syntax OK
+[bimalanemkul@rocky-2023 wordpress]$ cd 
+[bimalanemkul@rocky-2023 ~]$ sudo dnf install mod_ssl
+In your Apache configuration, you need to ensure that the mod_ssl module is being loaded. 
+
+Open your Apache configuration file, which is often located at /etc/httpd/conf/httpd.conf or in a separate file within the  
+[bimalanemkul@rocky-2023 conf.d]$ sudo tail -f /var/log/httpd/error_log
+[Thu Nov 30 16:18:16.642830 2023] [http2:warn] [pid 82121:tid 140636289976640] AH02951: mod_ssl does not seem to be enabled
+
+[bimalanemkul@rocky-2023 wordpress]$ sudo chown -R apache:apache *
 
 
 
