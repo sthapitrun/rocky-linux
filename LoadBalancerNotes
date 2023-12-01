@@ -46,16 +46,18 @@ useful when servers are caching.
 Based on need and situation
 It is possible to use Multiple Load Balancers with different server selection strategies.
 
+#PROXIES VS REVERSE PROXY
+> Proxy server - is the server acting as a gatekeeper between the private network and the public internet.
+Forward proxy server - acts as a guardian/gatekeeper safeguarding the network by reguating traffic blocking harmful websites, masking client IP addresses, 
+logging user activity, bypassing content restrictions and commonly used for web data collection. 
+* Benefits of Forward proxy servers
+- Logs user activity
+- logs what websites were visited by clients
+- keeps track of what websites were visited and how long were they on those websites.
+- bypass restricted contents. e.g. for schools and governments restrict some websites.
+- improved speed by caching copies of websites frequently used. 
 
-
-
-
-
-
-
-
-
-Each client can request mult
-
+> Reverse Proxy - regulates the traffic coming to the network. enhances security for servers by hiding their IP addresses, blocking malicious traffic, 
+and implementing load balancing to distribute traffic evenly.
 
 
