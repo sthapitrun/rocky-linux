@@ -1,3 +1,5 @@
+Project 3: Creating A Load Balancer using Google Cloud CLI (Command Line Interface)
+
 Basic #LoadBalancer understanding:
 Dr. Burns - "A load balancer is a useful way to distribute traffic to multiple servers in order to reduce the workload on any one 
 specific server. Load balancers can be used in all sorts of situations, such as managing email, web, or other internet traffic."
@@ -76,7 +78,16 @@ Purpose:
 - Any requests to the website would be proxied through the load balancer, which would then, like a traffic cop, 
 direct HTTP traffic to the servers, as needed.
 
-# Steps (I took.)
+# Steps (I took using CLI - Command Line Interface in macOS Monterey 12.6.8)
+List authorized users
+gcloud auth list
+                  Credentialed Accounts
+ACTIVE  ACCOUNT
+*       935733144260-compute@developer.gserviceaccount.com
+
+To set the active account, run:
+    $ gcloud config set account `ACCOUNT
+
 
 
 
