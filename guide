@@ -106,7 +106,7 @@ login with root linux user
 [bimalanemkul@rocky-2023 html]$ sudo su
 
 [root@rocky-2023 html]# sudo mysql -u root -p
-passsword : 9110
+passsword : 
 Logged in to MariaDB
 MariaDB [(none)]> show databases;
 +--------------------+
@@ -263,10 +263,10 @@ Login as MariaDB root user
 [root@rocky-2023 wordpress]# 
 
 [root@rocky-2023 wordpress]# sudo mysql -u root -p
-Enter password:  9110
+Enter password:  
 
-1. create user wordpress pass Moonman@99 in MariDB
-MariaDB [(none)]> create user 'wordpress'@'localhost' identified by 'Moonman@99';
+1. create user wordpress in MariaDB
+MariaDB [(none)]> create user 'wordpress'@'localhost' identified by 'XXXXXXXX';
 Query OK, 0 rows affected (0.001 sec)
 
 2. Create a new database for Wordpress
@@ -274,8 +274,10 @@ MariaDB [(none)]> create database wordpress;
 Query OK, 1 row affected (0.001 sec)
 
 3. Grant all priviliges to the new user for new database wordpress
-MariaDB [(none)]> grant all privileges on wordpress.* to 'wordpress'@'localhost';
+MariaDB [(none)]> grant all on wordpress.* to 'wordpress'@'localhost';
 Query OK, 0 rows affected (0.000 sec)
+Apply the changes
+MariaDB [(none)]> flush privileges;
 
 MariaDB [(none)]> show databases;
 +--------------------+
@@ -296,9 +298,9 @@ Step 4: Set up wp-config.php
 When we created a file called login.php file that contained the name of the database (e.g. linuxdb), 
 the name of the database user (e.g., webapp), and the user's password. we followed the same general process that WordPress follows. 
 However, instead of login.php, WordPress uses a file called wp-config.php that we will have to edit.
-Change to the wordpress directory, if you haven't already.
-Copy and rename the wp-config-sample.php file to wp-config.php.
+Change to the wordpress directory,
 [bimalanemkul@int-gs ~]$ cd /var/www/html/wordpress/
+Copy and rename the wp-config-sample.php file to wp-config.php.
 [bimalanemkul@rocky-2023 wordpress]$ sudo cp wp-config-sample.php wp-config.php
 [bimalanemkul@rocky-2023 wordpress]$ ls
 index.php        wp-admin              wp-config-sample.php  wp-links-opml.php  wp-settings.php
@@ -306,10 +308,12 @@ license.txt      wp-blog-header.php    wp-content            wp-load.
 readme.html      wp-comments-post.php  wp-cron.php           wp-login.php       wp-trackback.php
 wp-activate.php  wp-config.php         wp-includes           wp-mail.php        xmlrpc.php
 
-Edit the file and add your WordPress database name, user name, and password in the fields for DB_NAME, DB_USER, and DB_PASSWORD.
+Edit the file and add WordPress database name, user name, and password in the fields for DB_NAME, DB_USER, and DB_PASSWORD.
+We need to disable FTP uploads to the site. To do that, navigate to the end of the file and add the following line: define('FS_METHOD','direct');
 
-We need to disable FTP uploads to the site. To do that, navigate to the end of the file and add the following line: 
-define('FS_METHOD','direct');
+[bimalanemkul@rocky-2023 wordpress]$ sudo nano wp-config.php
+then change the ownership
+[bimalanemkul@rocky-2023 wordpress]$ sudo chown -R apache:apache *
 
 [bimalanemkul@rocky-2023 wordpress]$ apachectl configtest
 Syntax OK
@@ -317,11 +321,16 @@ Syntax OK
 [bimalanemkul@rocky-2023 ~]$ sudo dnf install mod_ssl
 In your Apache configuration, you need to ensure that the mod_ssl module is being loaded. 
 
-Open your Apache configuration file, which is often located at /etc/httpd/conf/httpd.conf or in a separate file within the  
-[bimalanemkul@rocky-2023 conf.d]$ sudo tail -f /var/log/httpd/error_log
-[Thu Nov 30 16:18:16.642830 2023] [http2:warn] [pid 82121:tid 140636289976640] AH02951: mod_ssl does not seem to be enabled
+Had to install php again in an effort to get rid of critical error on my wordpress site
+$ sudo dnf install php-gd php-soap php-intl php-mysqlnd php-pdo php-pecl-zip php-fpm php-opcache php-curl php-zip 
+and had to reset, and enable php at the end to make the error on wordpress go away
+[bimalanemkul@rocky-2023 wordpress]$$ sudo dnf module reset php
+[bimalanemkul@rocky-2023 wordpress]$ sudo dnf module enable php:7.4
 
-[bimalanemkul@rocky-2023 wordpress]$ sudo chown -R apache:apache *
+Finally website is working at
+http://34.134.129.185/wordpress/ 
+
+
 
 
 
