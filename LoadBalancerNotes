@@ -72,29 +72,97 @@ and implementing load balancing to distribute traffic evenly.
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
 reduce overwhelming traffic to one server causing slowness or failure. (traffic cop)
 
-# **Project 3: Creating a Load Balancer using Command Line Interface**
+# **Project 3: Creating a Load Balancer using Command Line Interface in GCP**
 Purpose:
 - Use the gcloud command line to create a load balancer that distributes web (HTTP) traffic to three separate servers.
 - Create three servers that would contain the exact same content: our wordpress website created in Rocky Linux 8.
 - Any requests to the website would be proxied through the load balancer, which would then, like a traffic cop, 
 direct HTTP traffic to the servers, as needed.
 
-# Steps (I took using CLI in macOS Monterey 12.6.8)
-1. List authorized users
+# # # Steps (I took using CLI in macOS Monterey 12.6.8) # # #
+# 1. Check the List of authorized users
 gcloud auth list
                   Credentialed Accounts
 ACTIVE  ACCOUNT
 *       935733144260-compute@developer.gserviceaccount.com
 
 To set the active account, run:
-    $ gcloud config set account `ACCOUNT
+    $ gcloud config set account `ACCOUNT'
 
-2. List the default project
-[bimalanemkul@rocky-2023 ~]$ gcloud config list project
 [core]
 project = finalsys-gs
+Your active configuration is: [default]
+
+*Just a Note*
+It is recommended to use service account but can authorize other login
+*       935733144260-compute@developer.gserviceaccount.com
+[bimalanemkul@rocky-2023 ~]$ gcloud auth login
+and follow the instructions on the prompt.
+
+You can run:
+  $ gcloud config set account `ACCOUNT`
+to switch accounts if necessary. But you may need to add another account if you want to use another account.
+ - Check the authentication list
+[bimalanemkul@rocky-2023 ~]$ gcloud auth list
+-----------
+    Save the project ID to a variable name PROJECT_ID by exporting the obtained project ID as an variable making it
+    accessible to other commands and scripts
+[bimalanemkul@rocky-2023 ~]$ export PROJECT_ID=$(gcloud config get-value project)
+
+# 2. List the default zone and set the default zone
+    Getting the default zone
+[bimalanemkul@rocky-2023 ~]$ gcloud config list compute/zone
+[compute]
+zone (unset)
 
 Your active configuration is: [default]
+-----------
+*Since the zone is (unset), modify and set the default zone. For me, its "us-central1-c"*
+[bimalanemkul@rocky-2023 ~]$ gcloud config set compute/zone us-central1-c
+
+# 3. List the Region and set the default Region
+[bimalanemkul@rocky-2023 ~]$ gcloud config list compute/region
+[compute]
+region (unset)
+
+Your active configuration is: [default]
+---------
+*Since the Region is (unset), modify and set the default Region. For me, its "us-central1-Iowa"*
+[bimalanemkul@rocky-2023 ~]$ gcloud config set compute/region us-central1-Iowa
+Check if the Region is updated,
+[bimalanemkul@rocky-2023 ~]$ gcloud config list compute/region
+[compute]
+region = us-central1-Iowa
+
+Your active configuration is: [default]
+
+# 4. Create additional VM instance using CLI
+We already have one VM named "rocky-2023". Create three other instances named "vweb01", "vweb02 and "vweb03"
+
+
+gcloud compute instances create debian23 --machine-type e2-medium --zone="$ZONE'
+gcloud compute instances create INSTANCE_NAME1 --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --zone=us-central1-c
+gcloud compute instances create INSTANCE_NAME2 --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --zone=us-central1-c
+
+gcloud compute instances create vweb01 --zone=us-central1-c --region=us-central1-Iowa --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-medium --metadata=startup-script='#!bin/bash 
+> dnf update -y
+> dnf install httpd -y
+> systemctl enable httpd
+> systemctl start httpd
+> echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
+
+
+
+#!/bin/bash
+dnf update -y
+dnf install httpd -y
+systemctl enable httpd
+systemctl start httpd
+echo "<h3>Web Server: www1</h3>" | tee /var/www/html/index.html
+
+
+-----------
+
 
 
 
