@@ -72,7 +72,7 @@ and implementing load balancing to distribute traffic evenly.
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
 reduce overwhelming traffic to one server causing slowness or failure. (traffic cop)
 
-# **Project 3: Creating a Load Balancer using Command Line Interface in GCP**
+**Project 3: Creating a Load Balancer using Command Line Interface in GCP**
 Purpose:
 - Use the gcloud command line to create a load balancer that distributes web (HTTP) traffic to three separate servers.
 - Create three servers that would contain the exact same content: our wordpress website created in Rocky Linux 8.
@@ -139,26 +139,92 @@ Your active configuration is: [default]
 # 4. Create additional VM instance using CLI
 We already have one VM named "rocky-2023". Create three other instances named "vweb01", "vweb02 and "vweb03"
 
+*You may need authenticate your gmail account using ACCOUNT=your@gmail.com*
+            $ gcloud config set account `ACCOUNT`  
 
-gcloud compute instances create debian23 --machine-type e2-medium --zone="$ZONE'
-gcloud compute instances create INSTANCE_NAME1 --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --zone=us-central1-c
-gcloud compute instances create INSTANCE_NAME2 --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --zone=us-central1-c
-
-gcloud compute instances create vweb01 --zone=us-central1-c --region=us-central1-Iowa --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-medium --metadata=startup-script='#!bin/bash 
-> dnf update -y
-> dnf install httpd -y
-> systemctl enable httpd
-> systemctl start httpd
-> echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
-
-
-
-#!/bin/bash
+**1st webserver: vweb01**
+[bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb01 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-medium --metadata=startup-script='#!bin/bash 
 dnf update -y
 dnf install httpd -y
 systemctl enable httpd
 systemctl start httpd
-echo "<h3>Web Server: www1</h3>" | tee /var/www/html/index.html
+echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
+'
+
+Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb01].
+NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
+vweb01  us-central1-c  e2-medium                  10.128.0.5   34.30.120.120  RUNNING
+[bimalanemkul@rocky-2023 ~]$ 
+
+**2nd webserver: vweb02 (Note made this machine-type=e2-small)**
+[bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb02 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-small --metadata=startup-script='#!bin/bash 
+dnf update -y
+dnf install httpd -y
+systemctl enable httpd
+systemctl start httpd
+echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
+'
+
+Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb02].
+NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP  STATUS
+vweb02  us-central1-c  e2-small                   10.128.0.6   34.71.62.93  RUNNING
+
+**3rd webserver: vweb03 (Note made this machine-type=e2-small)**
+[bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb03 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-small --metadata=startup-script='#!bin/bash 
+dnf update -y
+dnf install httpd -y
+systemctl enable httpd
+systemctl start httpd
+echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
+'
+
+Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb03].
+NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
+vweb03  us-central1-c  e2-small                   10.128.0.7   34.31.166.118  RUNNING
+
+# 4. Create the Firewall rule to allow external traffic to our VM machine:
+[bimalanemkul@rocky-2023 ~]$ gcloud compute firewall-rules create www-firewall-network-lb \
+> --target-tags network-lb-tag --allow tcp:80
+Creating firewall...⠹Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/firewalls/www-firewall-network-lb].
+Creating firewall...done.                                                           
+NAME                     NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
+www-firewall-network-lb  default  INGRESS    1000      tcp:80        False
+
+# 5. Check the VM instances list (3 additional servers have been created):
+[bimalanemkul@rocky-2023 ~]$ gcloud compute instances list
+NAME        ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
+rocky-2023  us-central1-c  e2-medium                  10.128.0.4   34.122.172.103  RUNNING
+vweb01      us-central1-c  e2-medium                  10.128.0.5   34.30.120.120   RUNNING
+vweb02      us-central1-c  e2-small                   10.128.0.6   34.71.62.93     RUNNING
+vweb03      us-central1-c  e2-small                   10.128.0.7   34.31.166.118   RUNNING
+
+# 6. Using Curl command to verify that each instance is running:
+[bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.4
+[bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.5
+[bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.6
+[bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.7
+
+(Result shows the html content)
+
+******Main Task: Configure the Load Balancing Server******
+# 1. Creating a static external IP address for the load balancer:
+*I have used region=us-central1 but it can be modified according to specific requirements*
+  (we can check the GCloud regions list using command *gcloud compute regions list*)
+  
+[bimalanemkul@rocky-2023 ~]$ gcloud compute addresses create network-lb-ip-1 --region=us-central1
+Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/addresses/network-lb-ip-1].
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -----------
