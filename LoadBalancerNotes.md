@@ -10,8 +10,8 @@ that no one server is overworked, which could degrade performance. If a single s
 redirects traffic to the remaining online servers. When a new server is added to the server group, the load balancer 
 automatically starts to send requests to it.
 
->> Maximize server throughput and minimize Latency
->> handle the requests by scaling the system
+>> - Maximize server throughput and minimize Latency
+>> - Handle the requests by scaling the system
 
 A single server has limited resources and limited throughput to accomodate requests from all clients. This may cause the server to overload and cause slowness and failure.
 
@@ -71,7 +71,7 @@ and implementing load balancing to distribute traffic evenly.
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
 reduce overwhelming traffic to one server causing slowness or failure. (traffic cop)
 
-# Project 3: Creating a Load Balancer using Command Line Interface in GCP 
+## Project 3: Creating a Load Balancer using Command Line Interface in GCP 
 We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load
 Purpose:
 - Use the gcloud command line to create a load balancer that distributes web (HTTP) traffic to three separate servers.
@@ -79,8 +79,8 @@ Purpose:
 - Any requests to the website would be proxied through the load balancer, which would then, like a traffic cop, 
 direct HTTP traffic to the servers, as needed.
 
-# Steps (I took using CLI in macOS Monterey 12.6.8)
-# 1. Check the List of authorized users*
+### Steps (I took using CLI in macOS Monterey 12.6.8)
+#### 1. Check the List of authorized users
 gcloud auth list
                   Credentialed Accounts
 ACTIVE  ACCOUNT
