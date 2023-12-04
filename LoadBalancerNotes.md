@@ -110,7 +110,7 @@ to switch accounts if necessary. But you may need to add another account if you 
     accessible to other commands and scripts
 [bimalanemkul@rocky-2023 ~]$ export PROJECT_ID=$(gcloud config get-value project)
 
-# 2. List the default zone and set the default zone
+#### 2. List the default zone and set the default zone
     Getting the default zone
 [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/zone
 [compute]
@@ -121,12 +121,11 @@ Your active configuration is: [default]
 *Since the zone is (unset), modify and set the default zone. For me, its "us-central1-c"*
 [bimalanemkul@rocky-2023 ~]$ gcloud config set compute/zone us-central1-c
 
-# 3. List the Region and set the default Region
+#### 3. List the Region and set the default Region
 [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/region
 [compute]
 region (unset)
-
-Your active configuration is: [default]
+Your active configuration is: [default]**
 ---------
 *Since the Region is (unset), modify and set the default Region. For me, its "us-central1-Iowa"*
 [bimalanemkul@rocky-2023 ~]$ gcloud config set compute/region us-central1-Iowa
@@ -137,7 +136,7 @@ region = us-central1-Iowa
 
 Your active configuration is: [default]
 
-# 4. Create additional VM instance using CLI
+#### 4. Create additional VM instance using CLI
 We already have one VM named "rocky-2023". Create three other instances named "vweb01", "vweb02 and "vweb03"
 
 *You may need authenticate your gmail account using ACCOUNT=your@gmail.com*
@@ -183,7 +182,7 @@ Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-cen
 NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
 vweb03  us-central1-c  e2-small                   10.128.0.7   34.31.166.118  RUNNING
 
-# 4. Create the Firewall rule to allow external traffic to our VM machine:
+#### 5. Create the Firewall rule to allow external traffic to our VM machine:
 [bimalanemkul@rocky-2023 ~]$ gcloud compute firewall-rules create www-firewall-network-lb \
 > --target-tags network-lb-tag --allow tcp:80
 Creating firewall...⠹Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/firewalls/www-firewall-network-lb].
@@ -191,7 +190,7 @@ Creating firewall...done.
 NAME                     NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
 www-firewall-network-lb  default  INGRESS    1000      tcp:80        False
 
-# 5. Check the VM instances list (3 additional servers have been created):
+#### 6. Check the VM instances list (3 additional servers have been created):
 [bimalanemkul@rocky-2023 ~]$ gcloud compute instances list
 NAME        ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
 rocky-2023  us-central1-c  e2-medium                  10.128.0.4   34.122.172.103  RUNNING
@@ -199,7 +198,7 @@ vweb01      us-central1-c  e2-medium                  10.128.0.5   34.30.120.120
 vweb02      us-central1-c  e2-small                   10.128.0.6   34.71.62.93     RUNNING
 vweb03      us-central1-c  e2-small                   10.128.0.7   34.31.166.118   RUNNING
 
-# 6. Using Curl command to verify that each instance is running:
+#### 7. Using Curl command to verify that each instance is running:
 [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.4
 [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.5
 [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.6
@@ -207,7 +206,7 @@ vweb03      us-central1-c  e2-small                   10.128.0.7   34.31.166.118
 
 (Result shows the html content)
 
-******Main Task: 1. Configure the Load Balancing Server******
+Alt-H1 Main Task: 1. Configure the Load Balancing Server
 # 1. Creating a static external IP address for the load balancer:
 *I have used region=us-central1 but it can be modified according to specific requirements*
   (we can check the GCloud regions list using command *gcloud compute regions list*)
