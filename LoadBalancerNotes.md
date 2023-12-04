@@ -86,7 +86,7 @@ Credentialed Accounts
 ACTIVE  ACCOUNT
 * 935733144260-compute@developer.gserviceaccount.com  
 
-To set the active account, run:
+To set the active account, run:  
 *      gcloud config set account `ACCOUNT'
 
 [core]
@@ -94,16 +94,14 @@ project = finalsys-gs
 Your active configuration is: [default]
 
 *Just a Note*
-It is recommended to use service account but can authorize other login
-*       935733144260-compute@developer.gserviceaccount.com
-[bimalanemkul@rocky-2023 ~]$ gcloud auth login
-and follow the instructions on the prompt.
-
+It is recommended to use service account such as 935733144260-compute@developer.gserviceaccount.com but can authorize other login  
+*         [bimalanemkul@rocky-2023 ~]$ gcloud auth login
+and follow the instructions on the prompt.  
 You can run:
-  $ gcloud config set account `ACCOUNT`
+*         gcloud config set account `ACCOUNT`
 to switch accounts if necessary. But you may need to add another account if you want to use another account.
  - Check the authentication list
-[bimalanemkul@rocky-2023 ~]$ gcloud auth list
+*         [bimalanemkul@rocky-2023 ~]$ gcloud auth list
 -----------
     Save the project ID to a variable name PROJECT_ID by exporting the obtained project ID as an variable making it
     accessible to other commands and scripts
