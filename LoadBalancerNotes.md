@@ -91,7 +91,7 @@ To set the active account, run:
 *      gcloud config set account `ACCOUNT'
 
    Output:
-        [core]
+*        [core]
       project = finalsys-gs
       Your active configuration is: [default]
 
@@ -113,10 +113,11 @@ Save the project ID to a variable name PROJECT_ID by exporting the obtained proj
 *         [bimalanemkul@rocky-2023 ~]$ export PROJECT_ID=$(gcloud config get-value project)
 -----------
 #### 2. List the default zone and set the default zone
-    Getting the default zone
-[bimalanemkul@rocky-2023 ~]$ gcloud config list compute/zone
-[compute]
-zone (unset)
+Getting the default zone
+      [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/zone
+      Output:  
+      [compute]  
+      zone (unset)
 
 Your active configuration is: [default]
 -----------
