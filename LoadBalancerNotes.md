@@ -313,10 +313,10 @@ Output: (html codes for HTTP Server Test Page)
 **5.3 Use curl command to access the external IP address, replacing IP_ADDRESS with an external IP address from the previous command:**   
 *         [bimalanemkul@rocky-2023 ~]$ while true; do curl -m1 34.171.121.209; done
 
-         while true; do ... done: This creates an infinite loop. The true command always returns a true value, so the loop continues indefinitely.
+--       while true; do ... done: This creates an infinite loop. The true command always returns a true value, so the loop continues indefinitely.
          curl -m1 $IPADDRESS: 
          This command uses curl to make an HTTP request to the IP address stored in the $IPADDRESS variable. 
-         The -m1 option sets a timeout of 1 second._
+         The -m1 option sets a timeout of 1 second.
 
 * a simple Bash loop that continuously executes the curl command, attempting to make HTTP requests to the IP address stored in the $IPADDRESS variable. The -m1 option for curl sets a timeout of 1 second, so if the connection or request takes longer than 1 second, curl will exit, and the loop will start another iteration.
 
