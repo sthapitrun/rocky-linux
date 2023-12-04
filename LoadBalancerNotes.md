@@ -53,7 +53,7 @@ Based on need and situation, it is possible to use Multiple Load Balancers with 
 
 ***Forward proxy server*** - acts as a guardian/gatekeeper safeguarding the network by reguating traffic blocking harmful websites, masking client IP addresses, 
 logging user activity, bypassing content restrictions and commonly used for web data collection. 
-* Benefits of Forward proxy servers (to protect clients)
+            *Benefits of Forward proxy servers (to protect clients)*
 - Logs user activity
 - logs what websites were visited by clients
 - keeps track of what websites were visited and how long were they on those websites.
@@ -63,8 +63,7 @@ logging user activity, bypassing content restrictions and commonly used for web 
 ***Reverse Proxy server*** - regulates the traffic coming to the network. enhances security for servers by hiding their IP addresses, blocking malicious traffic, 
 and implementing load balancing to distribute traffic evenly.
 - creates a single POE to regulate incoming traffic to the servers.
-
-   ***Benefits of Reverse proxy (to protect servers)***
+           *Benefits of Reverse proxy (to protect servers)*
 - increases the security on a private network by hiding IP addresses of the servers
 - block malicious traffic such as DDOS attack. 
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
@@ -72,7 +71,7 @@ reduce overwhelming traffic to one server causing slowness or failure. (traffic 
 
 ## Project 3: Creating a Load Balancer using Command Line Interface in GCP(Google Cloud Platform) - VM: Rocky Linux 8 
 We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load.
-      Purpose:
+      *Purpose:*
 - Use the gcloud command line to create a load balancer that distributes web (HTTP) traffic to three separate servers.
 - Create three servers that would contain the exact same content: our wordpress website created in Rocky Linux 8.
 - Any requests to the website would be proxied through the load balancer, which would then, like a traffic cop, 
@@ -81,7 +80,7 @@ direct HTTP traffic to the servers, as needed.
 ### Steps (I took using CLI in macOS Monterey 12.6.8)
 #### 1. Check the List of authorized users
 > gcloud auth list
-                  Credentialed Accounts
+Credentialed Accounts
 ACTIVE  ACCOUNT
 *       935733144260-compute@developer.gserviceaccount.com
 
