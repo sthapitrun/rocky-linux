@@ -79,13 +79,12 @@ We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load
 - Any requests to the website would be proxied through the load balancer, which would then, like a traffic cop, 
 direct HTTP traffic to the servers, as needed.
 
-### Steps (I took using CLI in macOS Monterey 12.6.8)
+### * Steps (I took using CLI in macOS Monterey 12.6.8)
 #### 1. Check the List of authorized users
-''' *       gcloud auth list
+*       gcloud auth list  
 Credentialed Accounts
 ACTIVE  ACCOUNT
-* 935733144260-compute@developer.gserviceaccount.com
-'''
+* 935733144260-compute@developer.gserviceaccount.com  
 
 To set the active account, run:
 *      gcloud config set account `ACCOUNT'
