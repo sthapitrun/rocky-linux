@@ -1,6 +1,6 @@
 # Project 3: Creating A Load Balancer using Google Cloud CLI (Command Line Interface)
 
-Basic #LoadBalancer understanding:
+Basic #LoadBalancer understanding:...
 Dr. Burns - "A load balancer is a useful way to distribute traffic to multiple servers in order to reduce the workload on any one 
 specific server. Load balancers can be used in all sorts of situations, such as managing email, web, or other internet traffic."
 
@@ -30,7 +30,7 @@ To handle this we typically scale the system:
 - Maintain even distribution 
 - Main purpose is to redirect the requests in a balanced way so that none of the singles server is overloaded with requests from clients.
 
-Reverse Proxy - Load balancers can also work on behalf of the clients or servers 
+*Reverse Proxy* - Load balancers can also work on behalf of the clients or servers 
 - Not limited to clients or servers
 - LB can be setup in between 
 - Server >>>>> Database 
