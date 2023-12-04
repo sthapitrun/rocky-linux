@@ -72,7 +72,7 @@ and implementing load balancing to distribute traffic evenly.
 reduce overwhelming traffic to one server causing slowness or failure. (traffic cop)
 
 ## Project 3: Creating a Load Balancer using Command Line Interface in GCP(Google Cloud Platform) - VM: Rocky Linux 8 
-We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load.
+We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load.   
       *Purpose:*
 - Use the gcloud command line to create a load balancer that distributes web (HTTP) traffic to three separate servers.
 - Create three servers that would contain the exact same content: our wordpress website created in Rocky Linux 8.
@@ -81,10 +81,11 @@ direct HTTP traffic to the servers, as needed.
 
 ### Steps (I took using CLI in macOS Monterey 12.6.8)
 #### 1. Check the List of authorized users
-*       gcloud auth list
+''' *       gcloud auth list
 Credentialed Accounts
 ACTIVE  ACCOUNT
 * 935733144260-compute@developer.gserviceaccount.com
+'''
 
 To set the active account, run:
 *      gcloud config set account `ACCOUNT'
