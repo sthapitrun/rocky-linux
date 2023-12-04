@@ -49,8 +49,7 @@ LB pings the server to check the health and based on server speed response and r
 >IP Based - gets request from the clients and hashes # the ip address so specific server is serving a specific client
 useful when servers are caching.
 
-Based on need and situation
-It is possible to use Multiple Load Balancers with different server selection strategies.
+Based on need and situation, it is possible to use Multiple Load Balancers with different server selection strategies.
 
 *PROXIES VS REVERSE PROXY*
 > Proxy server - is the server acting as a gatekeeper between the private network and the public internet.
@@ -72,16 +71,16 @@ and implementing load balancing to distribute traffic evenly.
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
 reduce overwhelming traffic to one server causing slowness or failure. (traffic cop)
 
-**Project 3: Creating a Load Balancer using Command Line Interface in GCP**
-We will create servers **vweb01** **vweb02** and **vweb03** to balance our load
+# Project 3: Creating a Load Balancer using Command Line Interface in GCP 
+We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load
 Purpose:
 - Use the gcloud command line to create a load balancer that distributes web (HTTP) traffic to three separate servers.
 - Create three servers that would contain the exact same content: our wordpress website created in Rocky Linux 8.
 - Any requests to the website would be proxied through the load balancer, which would then, like a traffic cop, 
 direct HTTP traffic to the servers, as needed.
 
-# # # Steps (I took using CLI in macOS Monterey 12.6.8) # # #
-# 1. Check the List of authorized users
+# Steps (I took using CLI in macOS Monterey 12.6.8)
+# 1. Check the List of authorized users*
 gcloud auth list
                   Credentialed Accounts
 ACTIVE  ACCOUNT
@@ -450,7 +449,7 @@ Your browser should render a page with content showing the name of the instance 
 
 
 -----------
-Footnote
+[^] Footnote
 UseFul Resources: (Google account)
 https://www.cloudskillsboost.google/catalog_lab/1034
 https://www.cloudskillsboost.google/course_sessions/6628477/labs/403395
