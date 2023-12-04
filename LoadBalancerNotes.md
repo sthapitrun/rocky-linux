@@ -16,30 +16,27 @@ automatically starts to send requests to it.
 A single server has limited resources and limited throughput to accomodate requests from all clients. This may cause the server to overload and cause slowness and failure.
 
 To handle this we typically scale the system: 
-1. vertical scaling - increasing the power of server. 
- An increase in resources is limited.
-2. horiztontal scaling - popular option
+1. Vertical scaling - increasing the power of server.
+   An increase in resources is limited so we may want to choose the option of scaling the system by analysing the need.
+2. Horiztontal scaling - popular option
 - Add more machines or servers to the system, three servers instead of one, a lot more requests can be handled from clients. 
 - must ensure that requests are being processed by the server in a balanced way.
+  > Horizontal scaling > add servers > load balancer will make use of new resources to improve the overall throughput > reduced latency
 
 **Client >>>> Load Balancer >>>>> Server**
-
 - Load Balancer is basically another server that sits between client and server to balance the load and requests from client to the servers. 
 - Redirect clients requests to servers in balanced way
 - Balance workloads
 - Maintain even distribution 
 - Main purpose is to redirect the requests in a balanced way so that none of the singles server is overloaded with requests from clients.
 
-Horizontal scaling > add servers > load balancer will make use of new resources to improve the overall throughput > reduced latency
-
 Reverse Proxy - Load balancers can also work on behalf of the clients or servers 
-Not limited to clients or servers
-LB can be setup in between 
-Server >>>>> Database 
-Server >>>>> other servers
-DNS Load Balancer at the DNS layer of the website (e.g. dns query from browser will request the DNS LB to process the request and return the website)
-
-Software load balancers - cheap and highly customizable
+- Not limited to clients or servers
+- LB can be setup in between 
+- Server >>>>> Database 
+- Server >>>>> other servers
+- DNS Load Balancer at the DNS layer of the website (e.g. dns query from browser will request the DNS LB to process the request and return the website)
+- Software load balancers - cheap and highly customizable
 
 **Server Selection Strategy**
 ROUND ROBIN - goes through all the servers in a loop for even distribution of load amongst all servers
@@ -66,15 +63,15 @@ logging user activity, bypassing content restrictions and commonly used for web 
 ***Reverse Proxy*** - regulates the traffic coming to the network. enhances security for servers by hiding their IP addresses, blocking malicious traffic, 
 and implementing load balancing to distribute traffic evenly.
 - creates a single POE to regulate incoming traffic to the servers.
-**Benefits of Reverse proxy (to protect servers)**
+***Benefits of Reverse proxy (to protect servers)***
 - increases the security on a private network by hiding IP addresses of the servers
 - block malicious traffic such as DDOS attack. 
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
 reduce overwhelming traffic to one server causing slowness or failure. (traffic cop)
 
 ## Project 3: Creating a Load Balancer using Command Line Interface in GCP 
-We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load
-Purpose:
+We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load.
+ Purpose:
 - Use the gcloud command line to create a load balancer that distributes web (HTTP) traffic to three separate servers.
 - Create three servers that would contain the exact same content: our wordpress website created in Rocky Linux 8.
 - Any requests to the website would be proxied through the load balancer, which would then, like a traffic cop, 
@@ -82,7 +79,7 @@ direct HTTP traffic to the servers, as needed.
 
 ### Steps (I took using CLI in macOS Monterey 12.6.8)
 #### 1. Check the List of authorized users
-gcloud auth list
+> gcloud auth list
                   Credentialed Accounts
 ACTIVE  ACCOUNT
 *       935733144260-compute@developer.gserviceaccount.com
