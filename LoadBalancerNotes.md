@@ -215,26 +215,26 @@ vweb03      us-central1-c  e2-small                   10.128.0.7   34.31.166.118
 [bimalanemkul@rocky-2023 ~]$ gcloud compute addresses create network-lb-ip-1 --region=us-central1
 Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/addresses/network-lb-ip-1].
 
-# 2. Adding Legacy HTTP health check resource:
+**2. Adding Legacy HTTP health check resource:**
 (Health checks determine which instances can receive new connections.This health check is a basic configuration and can be used to monitor the health of instances serving HTTP traffic) 
 -- basic-check represents Health_check_name --
 
-[bimalanemkul@rocky-2023 ~]$ gcloud compute http-health-checks create basic-check
-Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/httpHealthChecks/basic-check].
-NAME         HOST  PORT  REQUEST_PATH
-basic-check        80    /
+         [bimalanemkul@rocky-2023 ~]$ gcloud compute http-health-checks create basic-check
+         Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/httpHealthChecks/basic-check].
+         NAME         HOST  PORT  REQUEST_PATH
+         basic-check        80    /
 
-# 3. Add a target pool in the same region as the instances. Create a target pool named "www-pool" which is associated with an HTTP health check named "basic-check." This is required for the service to function:
+**3. Add a target pool in the same region as the instances. Create a target pool named "www-pool" which is associated with an HTTP health check named "basic-check." This is required for the service to function:**
 [bimalanemkul@rocky-2023 ~]$ gcloud compute target-pools create www-pool --region=us-central1 --http-health-check basic-check
 Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool].
 NAME      REGION       SESSION_AFFINITY  BACKUP  HEALTH_CHECKS
 www-pool  us-central1  NONE                      basic-check
 
-# 4. Now, we need to add all the new instances vweb01,vweb02 and vweb03 we created to the pool named "www-pool":
+**4. Now, we need to add all the new instances vweb01,vweb02 and vweb03 we created to the pool named "www-pool":**
 [bimalanemkul@rocky-2023 ~]$ gcloud compute target-pools add-instances www-pool --instances vweb01,vweb02,vweb03
 Updated [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool].
 
-# 5. Next we need to forward the rules created to the load balancer and target pools
+**5. Next we need to forward the rules created to the load balancer and target pools**
         *we can check the status of forwarding rule using*
         gcloud compute forwarding-rules describe www-rule --region=us-central1
 
@@ -246,7 +246,7 @@ Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-c
 **Load balancer is configured, Now we need to send traffic to our newly created VM instances**
 
 **Send Traffic to the VM instaces**
-1. check the www-rule forwarding rule used by load balancer: 
+**1. check the www-rule forwarding rule used by load balancer: **
 
 [bimalanemkul@rocky-2023 ~]$ gcloud compute forwarding-rules describe www-rule --region=us-central1
 IPAddress: 34.171.121.209
@@ -265,12 +265,12 @@ region: https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-ce
 selfLink: https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/forwardingRules/www-rule
 target: https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool
 
-2. Access the external IP address:
+**2. Access the external IP address:**
 
 IPADDRESS=$(gcloud compute forwarding-rules describe www-rule --region=us-central1 --format="json" | jq -r .IPAddress)
 [bimalanemkul@rocky-2023 ~]$ IPADDRESS=$(gcloud compute forwarding-rules describe www-rule --region=us-central1 --format="json" | jq -r .IPAddress)
 
-# jq: command not found - if this error is seen that means we need to install jq- command-line JSON processor in the system
+_**jq: command not found - if this error is seen that means we need to install jq- command-line JSON processor in the system**_
 [bimalanemkul@rocky-2023 ~]$ sudo dnf install jq
 
 "After that, we should be able to the run the command, variable IPADDRESS will contain the IP address associated with the specified forwarding rule. We can then use this variable in subsequent commands or scripts as needed."
