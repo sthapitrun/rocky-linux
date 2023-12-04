@@ -116,27 +116,30 @@ Save the project ID to a variable name PROJECT_ID by exporting the obtained proj
 Getting the default zone
 *         [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/zone
 
-*         Output:  
-        [compute]  
+Output:  
+*        [compute]  
          zone (unset)
+         Your active configuration is: [default]
 
-Your active configuration is: [default]
------------
 *Since the zone is (unset), modify and set the default zone. For me, its "us-central1-c"*
-[bimalanemkul@rocky-2023 ~]$ gcloud config set compute/zone us-central1-c
+*         [bimalanemkul@rocky-2023 ~]$ gcloud config set compute/zone us-central1-c
 
-#### 3. List the Region and set the default Region
-[bimalanemkul@rocky-2023 ~]$ gcloud config list compute/region
-[compute]
-region (unset)
-Your active configuration is: [default]**
----------
+#### 3. List the Region and set the default Region  
+
+*         [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/region
+
+Output: 
+*         [compute]
+         region (unset)
+         Your active configuration is: [default]
+
 *Since the Region is (unset), modify and set the default Region. For me, its "us-central1-Iowa"*
-[bimalanemkul@rocky-2023 ~]$ gcloud config set compute/region us-central1-Iowa
-Check if the Region is updated,
-[bimalanemkul@rocky-2023 ~]$ gcloud config list compute/region
-[compute]
-region = us-central1-Iowa
+*         [bimalanemkul@rocky-2023 ~]$ gcloud config set compute/region us-central1-Iowa  
+Check if the Region is updated,  
+*          [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/region
+Output:
+*         [compute]
+         region = us-central1-Iowa
 
 Your active configuration is: [default]
 
