@@ -314,37 +314,36 @@ Output: (html codes for HTTP Server Test Page)
 *         [bimalanemkul@rocky-2023 ~]$ while true; do curl -m1 34.171.121.209; done
 
 * while true; do ... done: This creates an infinite loop. The true command always returns a true value, so the loop continues indefinitely.
-* curl -m1 $IPADDRESS: 
-* This command uses curl to make an HTTP request to the IP address stored in the $IPADDRESS variable. 
-* The -m1 option sets a timeout of 1 second. -- 
+* curl -m1 $IPADDRESS: This command uses curl to make an HTTP request to the IP address stored in the $IPADDRESS variable. 
+* The -m1 option sets a timeout of 1 second.  
+_a simple Bash loop that continuously executes the curl command, attempting to make HTTP requests to the IP address stored in the $IPADDRESS variable. The -m1 option for curl sets a timeout of 1 second, so if the connection or request takes longer than 1 second, curl will exit, and the loop will start another iteration._
 
-* a simple Bash loop that continuously executes the curl command, attempting to make HTTP requests to the IP address stored in the $IPADDRESS variable. The -m1 option for curl sets a timeout of 1 second, so if the connection or request takes longer than 1 second, curl will exit, and the loop will start another iteration.
-
-We will need press Ctrl+C to stop the running command as it is running in a loop.
+_We will need to press Ctrl+C to stop the running command as it is running in a loop._
 
 ### Main Task: 2. Create an HTTP load balancer
-*From Dr. Burns Notes and Google Cloud Skills Boost Course:*
+*From Dr. Burns Notes and Google Cloud Skills Boost Course:*  
 HTTP(S) Load Balancing is implemented on Google Front End (GFE). GFEs are distributed globally and operate together using Google's global network and control plane. You can configure URL rules to route some URLs to one set of instances and route other URLs to other instances.
 
 Requests are always routed to the instance group that is closest to the user, if that group has enough capacity and is appropriate for the request. If the closest group does not have enough capacity, the request is sent to the closest group that does have capacity.
 
 To set up a load balancer with a Compute Engine backend, your VMs need to be in an instance group. The managed instance group provides VMs running the backend servers of an external HTTP load balancer. For this lab, backends serve their own hostnames.
 
-1. To create and HTTP load balancer - first we need to create a load balancer template in the backend:
-[bimalanemkul@rocky-2023 ~]$ gcloud compute instance-templates create lb-backend-template --region=us-central1 --network=default --subnet=default --tags=allow-health-check --machine-type=e2-medium --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --metadata=startup-script='#!/bin/bash
-> dnf update -y
-> dnf install httpd -y
-> systemctl enable httpd
-> systemctl start httpd
-> vm_hostname="$(curl -H "Metadata-Flavor:Google" \
-> http://169.254.269.254/computeMedtadata/v1/instancename)"
-> echo "Page served from: $vm_hostname" | \
-> tee /var/www/html/index.html
-> systemctl restart httpd
-> '
-Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/instanceTemplates/lb-backend-template].
-NAME                 MACHINE_TYPE  PREEMPTIBLE  CREATION_TIMESTAMP
-lb-backend-template  e2-medium                  2023-12-02T12:07:14.104-08:00
+1. To create and HTTP load balancer - first we need to create a load balancer template in the backend:  
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute instance-templates create lb-backend-template --region=us-central1 --network=default --subnet=default --tags=allow-health-check --machine-type=e2-medium --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --metadata=startup-script='#!/bin/bash
+        dnf update -y
+      dnf install httpd -y
+      systemctl enable httpd
+      systemctl start httpd
+      vm_hostname="$(curl -H "Metadata-Flavor:Google" \
+      http://169.254.269.254/computeMedtadata/v1/instancename)"
+      echo "Page served from: $vm_hostname" | \
+      tee /var/www/html/index.html
+      systemctl restart httpd
+      '
+Output:
+*         Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/instanceTemplates/lb-backend-template].
+         NAME                 MACHINE_TYPE  PREEMPTIBLE  CREATION_TIMESTAMP
+         lb-backend-template  e2-medium                  2023-12-02T12:07:14.104-08:00
 
 In this command:
 --image-family=rocky-linux-8 and --image-project=rocky-linux-cloud specify the Rocky Linux 8 image.
