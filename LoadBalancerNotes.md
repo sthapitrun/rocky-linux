@@ -163,63 +163,67 @@ Output:
          vweb01  us-central1-c  e2-medium                  10.128.0.5   34.30.120.120  RUNNING
 
 **2nd webserver: vweb02 (Note made this machine-type=e2-small)**
-[bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb02 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-small --metadata=startup-script='#!bin/bash 
-dnf update -y
-dnf install httpd -y
-systemctl enable httpd
-systemctl start httpd
-echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
-'
-
-Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb02].
-NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP  STATUS
-vweb02  us-central1-c  e2-small                   10.128.0.6   34.71.62.93  RUNNING
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb02 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-small --metadata=startup-script='#!bin/bash 
+         dnf update -y
+         dnf install httpd -y
+         systemctl enable httpd
+         systemctl start httpd
+         echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
+         '
+Output:  
+*         Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb02].
+         NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP  STATUS
+         vweb02  us-central1-c  e2-small                   10.128.0.6   34.71.62.93  RUNNING
 
 **3rd webserver: vweb03 (Note made this machine-type=e2-small)**
-[bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb03 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-small --metadata=startup-script='#!bin/bash 
-dnf update -y
-dnf install httpd -y
-systemctl enable httpd
-systemctl start httpd
-echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
-'
-
-Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb03].
-NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
-vweb03  us-central1-c  e2-small                   10.128.0.7   34.31.166.118  RUNNING
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb03 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-small --metadata=startup-script='#!bin/bash 
+         dnf update -y
+         dnf install httpd -y
+         systemctl enable httpd
+         systemctl start httpd
+         echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
+         '
+Output:  
+*         Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb03].
+         NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
+         vweb03  us-central1-c  e2-small                   10.128.0.7   34.31.166.118  RUNNING
 
 -----------
 #### 5. Create the Firewall rule to allow external traffic to our VM machine:
-[bimalanemkul@rocky-2023 ~]$ gcloud compute firewall-rules create www-firewall-network-lb \
-> --target-tags network-lb-tag --allow tcp:80
-Creating firewall...⠹Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/firewalls/www-firewall-network-lb].
-Creating firewall...done.                                                           
-NAME                     NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
-www-firewall-network-lb  default  INGRESS    1000      tcp:80        False
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute firewall-rules create www-firewall-network-lb --target-tags network-lb-tag --allow tcp:80
 
+Output:  
+*         Creating firewall...⠹Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/firewalls/www-firewall-network-lb].
+         Creating firewall...done.                                                           
+         NAME                     NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
+         www-firewall-network-lb  default  INGRESS    1000      tcp:80        False
+
+-----------
 #### 6. Check the VM instances list (3 additional servers have been created):
 *         [bimalanemkul@rocky-2023 ~]$ gcloud compute instances list
 
 Output: 
-         NAME        ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
+*         NAME        ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
          rocky-2023  us-central1-c  e2-medium                  10.128.0.4   34.122.172.103  RUNNING
          vweb01      us-central1-c  e2-medium                  10.128.0.5   34.30.120.120   RUNNING
          vweb02      us-central1-c  e2-small                   10.128.0.6   34.71.62.93     RUNNING
          vweb03      us-central1-c  e2-small                   10.128.0.7   34.31.166.118   RUNNING
 
+-----------
 #### 7. Using Curl command to verify that each instance is running:
 *         [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.4
          [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.5
          [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.6
          [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.7
 
-(Result shows the html content)
+Output: (Result shows the html content)
 
+-----------
 ### Main Task: 1. Configure the Load Balancing Server  
-**1. Creating a static external IP address for the load balancer:**
+**1. Creating a static external IP address for the load balancer:**  
 *I have used region=us-central1 but it can be modified according to specific requirements*
   (we can check the GCloud regions list using command)  
-      *gcloud compute regions list*
+*         gcloud compute regions list
 
 [bimalanemkul@rocky-2023 ~]$ gcloud compute addresses create network-lb-ip-1 --region=us-central1
 Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/addresses/network-lb-ip-1].
