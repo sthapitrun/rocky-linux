@@ -53,7 +53,7 @@ Based on need and situation, it is possible to use Multiple Load Balancers with 
 
 ***Forward proxy server*** - acts as a guardian/gatekeeper safeguarding the network by reguating traffic blocking harmful websites, masking client IP addresses, 
 logging user activity, bypassing content restrictions and commonly used for web data collection. 
-            *Benefits of Forward proxy servers (to protect clients)*
+*Benefits of Forward proxy servers (to protect clients)*
 - Logs user activity
 - logs what websites were visited by clients
 - keeps track of what websites were visited and how long were they on those websites.
@@ -63,7 +63,7 @@ logging user activity, bypassing content restrictions and commonly used for web 
 ***Reverse Proxy server*** - regulates the traffic coming to the network. enhances security for servers by hiding their IP addresses, blocking malicious traffic, 
 and implementing load balancing to distribute traffic evenly.
 - creates a single POE to regulate incoming traffic to the servers.
-           *Benefits of Reverse proxy (to protect servers)*
+*Benefits of Reverse proxy (to protect servers)*
 - increases the security on a private network by hiding IP addresses of the servers
 - block malicious traffic such as DDOS attack. 
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
