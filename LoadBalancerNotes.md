@@ -83,9 +83,10 @@ direct HTTP traffic to the servers, as needed.
 #### 1. Check the List of authorized users
 *       gcloud auth list  
    Output:
-         Credentialed Accounts  
+*         Credentialed Accounts  
          ACTIVE ACCOUNT  
-         935733144260-compute@developer.gserviceaccount.com    
+         935733144260-compute@developer.gserviceaccount.com
+ 
 To set the active account, run:  
 *      gcloud config set account `ACCOUNT'
 
@@ -105,9 +106,8 @@ to switch accounts if necessary. But you may need to add another account if you 
 
 Check the authentication list
 *         [bimalanemkul@rocky-2023 ~]$ gcloud auth list
------------
     
-* Save the project ID to a variable name PROJECT_ID by exporting the obtained project ID as an variable making it
+Save the project ID to a variable name PROJECT_ID by exporting the obtained project ID as an variable making it
     accessible to other commands and scripts
     
 *         [bimalanemkul@rocky-2023 ~]$ export PROJECT_ID=$(gcloud config get-value project)
