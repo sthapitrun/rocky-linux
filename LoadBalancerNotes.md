@@ -236,11 +236,11 @@ Updated [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-c
 
 **5. Next we need to forward the rules created to the load balancer and target pools**  
 *we can check the status of forwarding rule using*
-*              gcloud compute forwarding-rules describe www-rule --region=us-central1
+*          gcloud compute forwarding-rules describe www-rule --region=us-central1
 
 There are no forwarding rules created right now. But we will create a new rule name "www-rule" to target the 'www-pool' using the following command:
 
-[bimalanemkul@rocky-2023 ~]$ gcloud compute forwarding-rules create www-rule --region=us-central1 --ports=80 --target-pool=www-pool --address=network-lb-ip-1
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute forwarding-rules create www-rule --region=us-central1 --ports=80 --target-pool=www-pool --address=network-lb-ip-1
 Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/forwardingRules/www-rule].
 
 **Load balancer is configured, Now we need to send traffic to our newly created VM instances**
