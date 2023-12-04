@@ -39,20 +39,21 @@ To handle this we typically scale the system:
 - Software load balancers - cheap and highly customizable
 
 **Server Selection Strategy**<br>
-ROUND ROBIN - goes through all the servers in a loop for even distribution of load amongst all servers
-Customized Round Robin is called Weighted Round Robin where one powerful server is given more load and redirected to other servers
-Server Traffic - balancing load based on traffice being served by the server 
-LB pings the server to check the health and based on server speed response and resources and decides if or not to redirect traffic to those servers
-IP Based - gets request from the clients and hashes # the ip address so specific server is serving a specific client
-useful when servers are caching.
+ROUND ROBIN - goes through all the servers in a loop for even distribution of load amongst all servers. <br>
+Customized Round Robin is called *Weighted Round Robin* where one powerful server is given more load and redirected to other servers. <br>
+Server Traffic - balancing load based on traffice being served by the server. <br>
+LB pings the server to check the health and based on server speed response and resources and decides if or not to redirect traffic to those servers. <br>
+IP Based - gets request from the clients and hashes # the ip address so specific server is serving a specific client. <br>
+Useful when servers are caching.
 
-Based on need and situation, it is possible to use Multiple Load Balancers with different server selection strategies.
+*Based on need and situation, it is possible to use Multiple Load Balancers with different server selection strategies.*
 
 ***PROXIES VS REVERSE PROXY***
 > Proxy server - is the server acting as a gatekeeper between the private network and the public internet.
 
 ***Forward proxy server*** - acts as a guardian/gatekeeper safeguarding the network by reguating traffic blocking harmful websites, masking client IP addresses, 
-logging user activity, bypassing content restrictions and commonly used for web data collection.<br>
+logging user activity, bypassing content restrictions and commonly used for web data collection.
+<br><br>
 *Benefits of Forward proxy servers (to protect clients)*
 - Logs user activity
 - logs what websites were visited by clients
@@ -61,7 +62,8 @@ logging user activity, bypassing content restrictions and commonly used for web 
 - improved speed by caching copies of websites frequently used. 
 
 ***Reverse Proxy server*** - regulates the traffic coming to the network. enhances security for servers by hiding their IP addresses, blocking malicious traffic, 
-and implementing load balancing to distribute traffic evenly.<br>
+and implementing load balancing to distribute traffic evenly.
+<br><br>
 *Benefits of Reverse proxy (to protect servers)*
 - creates a single POE to regulate incoming traffic to the servers.<br>
 - increases the security on a private network by hiding IP addresses of the servers
