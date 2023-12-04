@@ -206,10 +206,11 @@ vweb03      us-central1-c  e2-small                   10.128.0.7   34.31.166.118
 
 (Result shows the html content)
 
-Alt-H1 Main Task: 1. Configure the Load Balancing Server
-# 1. Creating a static external IP address for the load balancer:
+### Main Task: 1. Configure the Load Balancing Server  
+**1. Creating a static external IP address for the load balancer:**
 *I have used region=us-central1 but it can be modified according to specific requirements*
-  (we can check the GCloud regions list using command *gcloud compute regions list*)
+  (we can check the GCloud regions list using command)  
+      *gcloud compute regions list*
 
 [bimalanemkul@rocky-2023 ~]$ gcloud compute addresses create network-lb-ip-1 --region=us-central1
 Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/addresses/network-lb-ip-1].
