@@ -71,6 +71,7 @@ and implementing load balancing to distribute traffic evenly.
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
 reduce overwhelming traffic to one server causing slowness or failure. (traffic cop)
 
+-----------
 ## Project 3: Creating a Load Balancer using Command Line Interface in GCP(Google Cloud Platform) - VM: Rocky Linux 8 
 We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load.   
       *Purpose:*
@@ -123,7 +124,7 @@ Output:
 
 *Since the zone is (unset), modify and set the default zone. For me, its "us-central1-c"*
 *         [bimalanemkul@rocky-2023 ~]$ gcloud config set compute/zone us-central1-c
-
+-----------
 #### 3. List the Region and set the default Region  
 
 *         [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/region
@@ -141,25 +142,25 @@ Output: (region is updated)
 *         [compute]
          region = us-central1-Iowa
       Your active configuration is: [default]
-
-#### 4. Create additional VM instance using CLI
+-----------
+#### 4. Create additional VM instances using CLI
 We already have one VM named "rocky-2023". Create three other instances named "vweb01", "vweb02 and "vweb03"
 
 *You may need authenticate your gmail account using ACCOUNT=your@gmail.com*
 *          gcloud config set account `ACCOUNT`  
 
 **1st webserver: vweb01**
-*         [bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb01 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-medium --metadata=startup-script='#!bin/bash
-      dnf update -y
-      dnf install httpd -y
-      systemctl enable httpd
-      systemctl start httpd
-      echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html'
+   *       [bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb01 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-medium --metadata=startup-script='#!bin/bash
+         dnf update -y
+         dnf install httpd -y
+         systemctl enable httpd
+         systemctl start httpd
+         echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html'
 
-Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb01].
-NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
-vweb01  us-central1-c  e2-medium                  10.128.0.5   34.30.120.120  RUNNING
-[bimalanemkul@rocky-2023 ~]$ 
+Output:  
+*         Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb01].
+         NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
+         vweb01  us-central1-c  e2-medium                  10.128.0.5   34.30.120.120  RUNNING
 
 **2nd webserver: vweb02 (Note made this machine-type=e2-small)**
 [bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb02 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-small --metadata=startup-script='#!bin/bash 
@@ -187,6 +188,7 @@ Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-cen
 NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
 vweb03  us-central1-c  e2-small                   10.128.0.7   34.31.166.118  RUNNING
 
+-----------
 #### 5. Create the Firewall rule to allow external traffic to our VM machine:
 [bimalanemkul@rocky-2023 ~]$ gcloud compute firewall-rules create www-firewall-network-lb \
 > --target-tags network-lb-tag --allow tcp:80
@@ -196,18 +198,20 @@ NAME                     NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
 www-firewall-network-lb  default  INGRESS    1000      tcp:80        False
 
 #### 6. Check the VM instances list (3 additional servers have been created):
-[bimalanemkul@rocky-2023 ~]$ gcloud compute instances list
-NAME        ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
-rocky-2023  us-central1-c  e2-medium                  10.128.0.4   34.122.172.103  RUNNING
-vweb01      us-central1-c  e2-medium                  10.128.0.5   34.30.120.120   RUNNING
-vweb02      us-central1-c  e2-small                   10.128.0.6   34.71.62.93     RUNNING
-vweb03      us-central1-c  e2-small                   10.128.0.7   34.31.166.118   RUNNING
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute instances list
+
+Output: 
+         NAME        ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
+         rocky-2023  us-central1-c  e2-medium                  10.128.0.4   34.122.172.103  RUNNING
+         vweb01      us-central1-c  e2-medium                  10.128.0.5   34.30.120.120   RUNNING
+         vweb02      us-central1-c  e2-small                   10.128.0.6   34.71.62.93     RUNNING
+         vweb03      us-central1-c  e2-small                   10.128.0.7   34.31.166.118   RUNNING
 
 #### 7. Using Curl command to verify that each instance is running:
-[bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.4
-[bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.5
-[bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.6
-[bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.7
+*         [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.4
+         [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.5
+         [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.6
+         [bimalanemkul@rocky-2023 ~]$ curl http://10.128.0.7
 
 (Result shows the html content)
 
