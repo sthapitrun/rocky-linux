@@ -1,7 +1,7 @@
 # Project 3: Creating A Load Balancer using Google Cloud CLI (Command Line Interface)
 
-Basic #LoadBalancer understanding:
-...Dr. Burns - "A load balancer is a useful way to distribute traffic to multiple servers in order to reduce the workload on any one 
+Basic LoadBalancer understanding:
+Dr. Burns - "A load balancer is a useful way to distribute traffic to multiple servers in order to reduce the workload on any one 
 specific server. Load balancers can be used in all sorts of situations, such as managing email, web, or other internet traffic."
 
 A load balancer acts as the “traffic cop” sitting in front of your servers and routing client requests across all 
@@ -20,7 +20,7 @@ To handle this we typically scale the system:
    An increase in resources is limited so we may want to choose the option of scaling the system by analysing the need.
 2. Horiztontal scaling - popular option
 - Add more machines or servers to the system, three servers instead of one, a lot more requests can be handled from clients. 
-- must ensure that requests are being processed by the server in a balanced way.
+- Must ensure that requests are being processed by the server in a balanced way.
   > Horizontal scaling > add servers > load balancer will make use of new resources to improve the overall throughput > reduced latency
 
 **Client >>>> Load Balancer >>>>> Server**
@@ -60,18 +60,19 @@ logging user activity, bypassing content restrictions and commonly used for web 
 - bypass restricted contents. e.g. for schools and governments restrict some websites.
 - improved speed by caching copies of websites frequently used. 
 
-***Reverse Proxy*** - regulates the traffic coming to the network. enhances security for servers by hiding their IP addresses, blocking malicious traffic, 
+***Reverse Proxy server*** - regulates the traffic coming to the network. enhances security for servers by hiding their IP addresses, blocking malicious traffic, 
 and implementing load balancing to distribute traffic evenly.
 - creates a single POE to regulate incoming traffic to the servers.
-***Benefits of Reverse proxy (to protect servers)***
+
+   ***Benefits of Reverse proxy (to protect servers)***
 - increases the security on a private network by hiding IP addresses of the servers
 - block malicious traffic such as DDOS attack. 
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
 reduce overwhelming traffic to one server causing slowness or failure. (traffic cop)
 
-## Project 3: Creating a Load Balancer using Command Line Interface in GCP 
+## Project 3: Creating a Load Balancer using Command Line Interface in GCP(Google Cloud Platform) - VM: Rocky Linux 8 
 We will create servers **vweb01**, **vweb02** and **vweb03** to balance our load.
- Purpose:
+      Purpose:
 - Use the gcloud command line to create a load balancer that distributes web (HTTP) traffic to three separate servers.
 - Create three servers that would contain the exact same content: our wordpress website created in Rocky Linux 8.
 - Any requests to the website would be proxied through the load balancer, which would then, like a traffic cop, 
