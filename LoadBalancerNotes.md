@@ -114,10 +114,11 @@ Save the project ID to a variable name PROJECT_ID by exporting the obtained proj
 -----------
 #### 2. List the default zone and set the default zone
 Getting the default zone
-      [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/zone
-      Output:  
-      [compute]  
-      zone (unset)
+*         [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/zone
+
+*         Output:  
+        [compute]  
+         zone (unset)
 
 Your active configuration is: [default]
 -----------
