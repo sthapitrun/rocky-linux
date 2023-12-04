@@ -83,15 +83,16 @@ direct HTTP traffic to the servers, as needed.
 #### 1. Check the List of authorized users
 *       gcloud auth list  
    Output:
-*          Credentialed Accounts  
+*       Credentialed Accounts  
          ACTIVE ACCOUNT  
          935733144260-compute@developer.gserviceaccount.com    
 To set the active account, run:  
 *      gcloud config set account `ACCOUNT'
 
-[core]
-project = finalsys-gs
-Your active configuration is: [default]
+   Output:
+*      [core]
+      project = finalsys-gs
+      Your active configuration is: [default]
 
 *Just a Note*
 It is recommended to use service account such as 935733144260-compute@developer.gserviceaccount.com but can authorize other login  
