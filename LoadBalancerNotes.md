@@ -235,7 +235,7 @@ www-pool  us-central1  NONE                      basic-check
 Updated [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool].
 
 **5. Next we need to forward the rules created to the load balancer and target pools**
-        *we can check the status of forwarding rule using*
+*we can check the status of forwarding rule using*
         gcloud compute forwarding-rules describe www-rule --region=us-central1
 
 There are no forwarding rules created right now. But we will create a new rule name "www-rule" to target the 'www-pool' using the following command:
