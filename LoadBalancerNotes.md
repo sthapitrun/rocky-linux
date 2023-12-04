@@ -1,6 +1,6 @@
 # Project 3: Creating A Load Balancer using Google Cloud CLI (Command Line Interface)
 
-Basic LoadBalancer understanding:
+Basic LoadBalancer understanding:<br>
 Dr. Burns - "A load balancer is a useful way to distribute traffic to multiple servers in order to reduce the workload on any one 
 specific server. Load balancers can be used in all sorts of situations, such as managing email, web, or other internet traffic."
 
@@ -38,7 +38,7 @@ To handle this we typically scale the system:
 - DNS Load Balancer at the DNS layer of the website (e.g. dns query from browser will request the DNS LB to process the request and return the website)
 - Software load balancers - cheap and highly customizable
 
-**Server Selection Strategy**
+**Server Selection Strategy**<br>
 ROUND ROBIN - goes through all the servers in a loop for even distribution of load amongst all servers
 Customized Round Robin is called Weighted Round Robin where one powerful server is given more load and redirected to other servers
 Server Traffic - balancing load based on traffice being served by the server 
@@ -52,7 +52,7 @@ Based on need and situation, it is possible to use Multiple Load Balancers with 
 > Proxy server - is the server acting as a gatekeeper between the private network and the public internet.
 
 ***Forward proxy server*** - acts as a guardian/gatekeeper safeguarding the network by reguating traffic blocking harmful websites, masking client IP addresses, 
-logging user activity, bypassing content restrictions and commonly used for web data collection. 
+logging user activity, bypassing content restrictions and commonly used for web data collection.<br>
 *Benefits of Forward proxy servers (to protect clients)*
 - Logs user activity
 - logs what websites were visited by clients
@@ -61,9 +61,9 @@ logging user activity, bypassing content restrictions and commonly used for web 
 - improved speed by caching copies of websites frequently used. 
 
 ***Reverse Proxy server*** - regulates the traffic coming to the network. enhances security for servers by hiding their IP addresses, blocking malicious traffic, 
-and implementing load balancing to distribute traffic evenly.
-- creates a single POE to regulate incoming traffic to the servers.<br>
+and implementing load balancing to distribute traffic evenly.<br>
 *Benefits of Reverse proxy (to protect servers)*
+- creates a single POE to regulate incoming traffic to the servers.<br>
 - increases the security on a private network by hiding IP addresses of the servers
 - block malicious traffic such as DDOS attack. 
 - where multiple servers are used, RP can act as load balancing to evenly distribute traffic to different servers to
