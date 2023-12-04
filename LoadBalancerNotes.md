@@ -81,7 +81,7 @@ direct HTTP traffic to the servers, as needed.
 
 ### Steps (I took using CLI in macOS Monterey 12.6.8)
 #### 1. Check the List of authorized users
-> gcloud auth list
+> gcloud auth list              <br>
 Credentialed Accounts
 ACTIVE  ACCOUNT
 *       935733144260-compute@developer.gserviceaccount.com
