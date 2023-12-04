@@ -131,32 +131,30 @@ Output:
 Output: 
 *         [compute]
          region (unset)
-         Your active configuration is: [default]
+      Your active configuration is: [default]
 
 *Since the Region is (unset), modify and set the default Region. For me, its "us-central1-Iowa"*
 *         [bimalanemkul@rocky-2023 ~]$ gcloud config set compute/region us-central1-Iowa  
 Check if the Region is updated,  
 *          [bimalanemkul@rocky-2023 ~]$ gcloud config list compute/region
-Output:
+Output: (region is updated)
 *         [compute]
          region = us-central1-Iowa
-
-Your active configuration is: [default]
+      Your active configuration is: [default]
 
 #### 4. Create additional VM instance using CLI
 We already have one VM named "rocky-2023". Create three other instances named "vweb01", "vweb02 and "vweb03"
 
 *You may need authenticate your gmail account using ACCOUNT=your@gmail.com*
-            $ gcloud config set account `ACCOUNT`  
+*          gcloud config set account `ACCOUNT`  
 
 **1st webserver: vweb01**
-[bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb01 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-medium --metadata=startup-script='#!bin/bash 
-dnf update -y
-dnf install httpd -y
-systemctl enable httpd
-systemctl start httpd
-echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html
-'
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute instances create vweb01 --zone=us-central1-c --image-family=rocky-linux-8 --image-project=rocky-linux-cloud --tags=network-lb-tag --machine-type=e2-medium --metadata=startup-script='#!bin/bash
+      dnf update -y
+      dnf install httpd -y
+      systemctl enable httpd
+      systemctl start httpd
+      echo "<h3>WebServer: vweb01</h3> | tee /var/www/html/index.html'
 
 Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/zones/us-central1-c/instances/vweb01].
 NAME    ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
