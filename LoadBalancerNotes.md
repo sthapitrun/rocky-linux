@@ -225,86 +225,98 @@ Output: (Result shows the html content)
   (we can check the GCloud regions list using command)  
 *         gcloud compute regions list
 
-[bimalanemkul@rocky-2023 ~]$ gcloud compute addresses create network-lb-ip-1 --region=us-central1
-Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/addresses/network-lb-ip-1].
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute addresses create network-lb-ip-1 --region=us-central1
 
-**2. Adding Legacy HTTP health check resource:**
+Output
+*         Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/addresses/network-lb-ip-1].
+
+**2. Adding Legacy HTTP health check resource:**  
 (Health checks determine which instances can receive new connections.This health check is a basic configuration and can be used to monitor the health of instances serving HTTP traffic) 
 -- basic-check represents Health_check_name --
 
-         [bimalanemkul@rocky-2023 ~]$ gcloud compute http-health-checks create basic-check
-         Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/httpHealthChecks/basic-check].
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute http-health-checks create basic-check
+
+Output:
+*         Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/global/httpHealthChecks/basic-check].
          NAME         HOST  PORT  REQUEST_PATH
          basic-check        80    /
 
-**3. Add a target pool in the same region as the instances. Create a target pool named "www-pool" which is associated with an HTTP health check named "basic-check." This is required for the service to function:**
-[bimalanemkul@rocky-2023 ~]$ gcloud compute target-pools create www-pool --region=us-central1 --http-health-check basic-check
-Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool].
-NAME      REGION       SESSION_AFFINITY  BACKUP  HEALTH_CHECKS
-www-pool  us-central1  NONE                      basic-check
+**3. Add a target pool in the same region as the instances. Create a target pool named "www-pool" which is associated with an HTTP health check named "basic-check." This is required for the service to function:**  
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute target-pools create www-pool --region=us-central1 --http-health-check basic-check
 
-**4. Now, we need to add all the new instances vweb01,vweb02 and vweb03 we created to the pool named "www-pool":**
-[bimalanemkul@rocky-2023 ~]$ gcloud compute target-pools add-instances www-pool --instances vweb01,vweb02,vweb03
-Updated [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool].
+Output:
+*         Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool].
+         NAME      REGION       SESSION_AFFINITY  BACKUP  HEALTH_CHECKS
+         www-pool  us-central1  NONE                      basic-check
+
+**4. Now, we need to add all the new instances vweb01,vweb02 and vweb03 we created to the pool named "www-pool":**  
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute target-pools add-instances www-pool --instances vweb01,vweb02,vweb03
+Output:
+*         Updated [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool].
 
 **5. Next we need to forward the rules created to the load balancer and target pools**  
-*we can check the status of forwarding rule using*
+*we can check the status of forwarding rule using*  
 *          gcloud compute forwarding-rules describe www-rule --region=us-central1
 
-There are no forwarding rules created right now. But we will create a new rule name "www-rule" to target the 'www-pool' using the following command:
+_There are no forwarding rules created right now. But we will create a new rule name "www-rule" to target the 'www-pool' using the following command:_
 
-*         [bimalanemkul@rocky-2023 ~]$ gcloud compute forwarding-rules create www-rule --region=us-central1 --ports=80 --target-pool=www-pool --address=network-lb-ip-1
-Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/forwardingRules/www-rule].
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute forwarding-rules create www-rule --region=us-central1 --ports=80 --target-pool=www-pool --address=network-lb-ip-1  
 
-**Load balancer is configured, Now we need to send traffic to our newly created VM instances**
+Output:
+*      Created [https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/forwardingRules/www-rule].
 
-**Send Traffic to the VM instaces**
-**1. check the www-rule forwarding rule used by load balancer: **
+_Load balancer is configured, Now we need to send traffic to our newly created VM instances_  
 
-[bimalanemkul@rocky-2023 ~]$ gcloud compute forwarding-rules describe www-rule --region=us-central1
-IPAddress: 34.171.121.209
-IPProtocol: TCP
-creationTimestamp: '2023-12-02T10:10:48.469-08:00'
-description: ''
-fingerprint: ZVVum_rqTv8=
-id: '3703055092761939399'
-kind: compute#forwardingRule
-labelFingerprint: 42WmSpB8rSM=
-loadBalancingScheme: EXTERNAL
-name: www-rule
-networkTier: PREMIUM
-portRange: 80-80
-region: https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1
-selfLink: https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/forwardingRules/www-rule
-target: https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool
+**5.1 Send Traffic to the VM instaces**  
 
-**2. Access the external IP address:**
+_check the www-rule forwarding rule used by load balancer:_  
 
-IPADDRESS=$(gcloud compute forwarding-rules describe www-rule --region=us-central1 --format="json" | jq -r .IPAddress)
-[bimalanemkul@rocky-2023 ~]$ IPADDRESS=$(gcloud compute forwarding-rules describe www-rule --region=us-central1 --format="json" | jq -r .IPAddress)
+*         [bimalanemkul@rocky-2023 ~]$ gcloud compute forwarding-rules describe www-rule --region=us-central1
+
+Output:
+*         IPAddress: 34.171.121.209
+         IPProtocol: TCP
+         creationTimestamp: '2023-12-02T10:10:48.469-08:00'
+         description: ''
+         fingerprint: ZVVum_rqTv8=
+         id: '3703055092761939399'
+         kind: compute#forwardingRule
+         labelFingerprint: 42WmSpB8rSM=
+         loadBalancingScheme: EXTERNAL
+         name: www-rule
+         networkTier: PREMIUM
+         portRange: 80-80
+         region: https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1
+         selfLink: https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/forwardingRules/www-rule
+         target: https://www.googleapis.com/compute/v1/projects/finalsys-gs/regions/us-central1/targetPools/www-pool
+
+**5.2 Access the external IP address:**
+
+*         [bimalanemkul@rocky-2023 ~]$ IPADDRESS=$(gcloud compute forwarding-rules describe www-rule --region=us-central1 --format="json" | jq -r .IPAddress)  
 
 _**jq: command not found - if this error is seen that means we need to install jq- command-line JSON processor in the system**_
-[bimalanemkul@rocky-2023 ~]$ sudo dnf install jq
 
-"After that, we should be able to the run the command, variable IPADDRESS will contain the IP address associated with the specified forwarding rule. We can then use this variable in subsequent commands or scripts as needed."
-[bimalanemkul@rocky-2023 ~]$ IPADDRESS=$(gcloud compute forwarding-rules describe www-rule --region=us-central1 --format="json" | jq -r .IPAddress)
-[bimalanemkul@rocky-2023 ~]$ 
+*         [bimalanemkul@rocky-2023 ~]$ sudo dnf install jq
 
-Check the external IP Address
-[bimalanemkul@rocky-2023 ~]$ echo $IPADDRESS
-34.171.121.209
+_After that, we should be able to the run the command, variable IPADDRESS will contain the IP address associated with the specified forwarding rule. We can then use this variable in subsequent commands or scripts as needed._
+*         [bimalanemkul@rocky-2023 ~]$ IPADDRESS=$(gcloud compute forwarding-rules describe www-rule --region=us-central1 --format="json" | jq -r .IPAddress)
+
+
+_Check the external IP Address_
+*         [bimalanemkul@rocky-2023 ~]$ echo $IPADDRESS
+         34.171.121.209
 
 Then use the curl command to access the external IP address.
-[bimalanemkul@rocky-2023 ~]$ curl 34.171.121.209
-* Output: html codes for HTTP Server Test Page
+*         [bimalanemkul@rocky-2023 ~]$ curl 34.171.121.209  
+Output: (html codes for HTTP Server Test Page)
 
-3. Use curl command to access the external IP address, replacing IP_ADDRESS with an external IP address from the previous command:
+**5.3 Use curl command to access the external IP address, replacing IP_ADDRESS with an external IP address from the previous command:**   
+*         [bimalanemkul@rocky-2023 ~]$ while true; do curl -m1 34.171.121.209; done
 
-[bimalanemkul@rocky-2023 ~]$ while true; do curl -m1 34.171.121.209; done
-* while true; do ... done: This creates an infinite loop. The true command always returns a true value, so the loop continues indefinitely.
+_* while true; do ... done: This creates an infinite loop. The true command always returns a true value, so the loop continues indefinitely.
 * curl -m1 $IPADDRESS: 
 This command uses curl to make an HTTP request to the IP address stored in the $IPADDRESS variable. 
-* The -m1 option sets a timeout of 1 second.
+* The -m1 option sets a timeout of 1 second._
 
 * a simple Bash loop that continuously executes the curl command, attempting to make HTTP requests to the IP address stored in the $IPADDRESS variable. The -m1 option for curl sets a timeout of 1 second, so if the connection or request takes longer than 1 second, curl will exit, and the loop will start another iteration.
 
