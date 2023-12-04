@@ -87,7 +87,7 @@ ACTIVE  ACCOUNT
 * 935733144260-compute@developer.gserviceaccount.com
 
 To set the active account, run:
-    $ gcloud config set account `ACCOUNT'
+*      gcloud config set account `ACCOUNT'
 
 [core]
 project = finalsys-gs
