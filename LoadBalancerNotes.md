@@ -293,11 +293,11 @@ Then use the curl command to access the external IP address.
 This command uses curl to make an HTTP request to the IP address stored in the $IPADDRESS variable. 
 * The -m1 option sets a timeout of 1 second.
 
-# a simple Bash loop that continuously executes the curl command, attempting to make HTTP requests to the IP address stored in the $IPADDRESS variable. The -m1 option for curl sets a timeout of 1 second, so if the connection or request takes longer than 1 second, curl will exit, and the loop will start another iteration.
+* a simple Bash loop that continuously executes the curl command, attempting to make HTTP requests to the IP address stored in the $IPADDRESS variable. The -m1 option for curl sets a timeout of 1 second, so if the connection or request takes longer than 1 second, curl will exit, and the loop will start another iteration.
 
 We will need press Ctrl+C to stop the running command as it is running in a loop.
 
-******Main Task: 2. Create an HTTP load balancer******
+### Main Task: 2. Create an HTTP load balancer
 *From Dr. Burns Notes and Google Cloud Skills Boost Course:*
 HTTP(S) Load Balancing is implemented on Google Front End (GFE). GFEs are distributed globally and operate together using Google's global network and control plane. You can configure URL rules to route some URLs to one set of instances and route other URLs to other instances.
 
