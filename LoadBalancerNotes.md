@@ -321,6 +321,7 @@ _a simple Bash loop that continuously executes the curl command, attempting to m
 
 _We will need to press Ctrl+C to stop the running command as it is running in a loop._  
 
+----------
 ### Main Task: 2. Create an HTTP load balancer
 *From Dr. Burns Notes and Google Cloud Skills Boost Course:*  
 HTTP(S) Load Balancing is implemented on Google Front End (GFE). GFEs are distributed globally and operate together using Google's global network and control plane. You can configure URL rules to route some URLs to one set of instances and route other URLs to other instances.
@@ -383,8 +384,9 @@ Output:
          NAME                   NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
          fw-allow-health-check  default  INGRESS    1000      tcp:80        False
 
-Note: The ingress rule allows traffic from the Google Cloud health checking systems (130.211.0.0/22 and 35.191.0.0/16).  
+Note: The ingress rule allows traffic from the Google Cloud health checking systems (130.211.0.0/22 and 35.191.0.0/16). 
 
+In this command:   
 _gcloud compute firewall-rules create fw-allow-health-check:_ This is the main command to create a firewall rule in the Google Cloud Compute service. It specifies the name of the firewall rule as fw-allow-health-check.  
 --network=default: Specifies the network for which the firewall rule is created. In this case, it's the default network.  
 --action=allow: Sets the action for the firewall rule to allow. This means that incoming traffic meeting the specified conditions will be allowed.  
@@ -484,23 +486,24 @@ Output:
 
 _the forwarding rule is named http-content-rule, and it is configured to forward HTTP traffic to the http-lb-proxy target HTTP proxy. Additionally, it associates the rule with the global external IP address named lb-ipv4-1 and specifies that it should handle traffic on port 80.
 
-******Final Task 3. Testing traffic sent to your instances******
-a. In the Google Cloud console, from the Navigation menu, go to Network services > Load balancing.
-b. Click on the load balancer that you just created (web-map-http).
-c. In the Backend section, click on the name of the backend and confirm that the VMs are Healthy. If they are not healthy, wait a few moments and try reloading the page.
-d. When the VMs are healthy, test the load balancer using a web browser, going to http://IP_ADDRESS/, replacing IP_ADDRESS with the load balancer's IP address.
-*This may take three to five minutes. If you do not connect, wait a minute, and then reload the browser.*
+----------
+******Final Task 3. Testing traffic sent to your instances******   
+a. In the Google Cloud console, from the Navigation menu, go to Network services > Load balancing.  
+b. Click on the load balancer that you just created (web-map-http).  
+c. In the Backend section, click on the name of the backend and confirm that the VMs are Healthy. If they are not healthy, wait a few moments and try reloading the page.  
+d. When the VMs are healthy, test the load balancer using a web browser, going to http://IP_ADDRESS/, replacing IP_ADDRESS with the load balancer's IP address.  
+*This may take three to five minutes. If you do not connect, wait a minute, and then reload the browser.*  
 
-Your browser should render a page with content showing the name of the instance that served the page, along with its zone (for example, Page served from: lb-backend-group-xxxx).
+Your browser should render a page with content showing the name of the instance that served the page, along with its zone (for example, Page served from: lb-backend-group-xxxx).  
 
 -----------
 [^] Footnote
-UseFul Resources: (Google account)
-https://www.cloudskillsboost.google/catalog_lab/1034
-https://www.cloudskillsboost.google/course_sessions/6628477/labs/403395
-https://www.youtube.com/watch?v=ZcNaOuxcuyA
-https://www.youtube.com/watch?v=RXXRguaHZs0
-https://www.nginx.com/resources/glossary/reverse-proxy-vs-load-balancer/
+UseFul Resources: (Google account)  
+https://www.cloudskillsboost.google/catalog_lab/1034  
+https://www.cloudskillsboost.google/course_sessions/6628477/labs/403395  
+https://www.youtube.com/watch?v=ZcNaOuxcuyA  
+https://www.youtube.com/watch?v=RXXRguaHZs0  
+https://www.nginx.com/resources/glossary/reverse-proxy-vs-load-balancer/  
 
-Special Thanks to UKY Professor Dr. Sean Burns for giving us the opportunity to get a hands on experience with Linux and other
-areas of computing and technology. 
+_Special Thanks to UKY Professor Dr. Sean Burns for giving us the opportunity to get a hands on experience with Linux and other
+areas of computing and technology._  
