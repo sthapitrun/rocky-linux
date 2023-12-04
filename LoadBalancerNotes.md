@@ -1,6 +1,6 @@
 # Project 3: Creating A Load Balancer using Google Cloud CLI (Command Line Interface)
 
-Basic LoadBalancer understanding:<br>
+Basic LoadBalancer understanding:    
 Dr. Burns - "A load balancer is a useful way to distribute traffic to multiple servers in order to reduce the workload on any one 
 specific server. Load balancers can be used in all sorts of situations, such as managing email, web, or other internet traffic."
 
