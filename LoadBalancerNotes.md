@@ -62,7 +62,7 @@ logging user activity, bypassing content restrictions and commonly used for web 
 
 ***Reverse Proxy server*** - regulates the traffic coming to the network. enhances security for servers by hiding their IP addresses, blocking malicious traffic, 
 and implementing load balancing to distribute traffic evenly.
-- creates a single POE to regulate incoming traffic to the servers.
+- creates a single POE to regulate incoming traffic to the servers.<br>
 *Benefits of Reverse proxy (to protect servers)*
 - increases the security on a private network by hiding IP addresses of the servers
 - block malicious traffic such as DDOS attack. 
